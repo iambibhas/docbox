@@ -4,4 +4,4 @@ Welcome to Everybag's API Documentation. At Everybag, our focus on Visual Produc
 
 We provide API endpoints, using our proprietary platform that takes every step into account. The end result is a format, that you can directly use in your shop.
 
-To get started, email us at <mailto:support@everybag.de>. Our team will provision Client IDs and Secrets for you to get started with.
+To get started, email us at <mailto:support@everybag.de>. Our team will provision Client ID and Client Secret for you to get started with.

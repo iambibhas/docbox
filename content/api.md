@@ -26,13 +26,12 @@ var settings = {
   "method": "POST",
   "headers": {
     "content-type": "application/x-www-form-urlencoded",
-    "cache-control": "no-cache",
-    "postman-token": "17a5f8d5-5dc4-35b2-e56f-8c411ae1d2c5"
+    "cache-control": "no-cache"
   },
   "data": {
     "grant_type": "client_credentials",
-    "client_id": "80e2a6b3e681cfa0381e4dae",
-    "client_secret": "0f26e96434d6b7dfc4012476735dfd7d6025e19e2c47a039",
+    "client_id": "your_client_id",
+    "client_secret": "your_client_secret",
     "scope": "image_matching"
   }
 }
@@ -55,11 +54,10 @@ curl_setopt_array($curl, array(
   CURLOPT_TIMEOUT => 30,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "grant_type=client_credentials&client_id=80e2a6b3e681cfa0381e4dae&client_secret=0f26e96434d6b7dfc4012476735dfd7d6025e19e2c47a039&scope=image_matching",
+  CURLOPT_POSTFIELDS => "grant_type=client_credentials&client_id=your_client_id&client_secret=your_client_secret&scope=image_matching",
   CURLOPT_HTTPHEADER => array(
     "cache-control: no-cache",
-    "content-type: application/x-www-form-urlencoded",
-    "postman-token: 114eff46-fb1d-b1b3-3145-37808d0aaa79"
+    "content-type: application/x-www-form-urlencoded"
   ),
 ));
 
@@ -110,12 +108,11 @@ import http.client
 
 conn = http.client.HTTPSConnection("openid.wundercart.de")
 
-payload = "grant_type=client_credentials&client_id=80e2a6b3e681cfa0381e4dae&client_secret=0f26e96434d6b7dfc4012476735dfd7d6025e19e2c47a039&scope=image_matching"
+payload = "grant_type=client_credentials&client_id=your_client_id&client_secret=your_client_secret&scope=image_matching"
 
 headers = {
     'content-type': "application/x-www-form-urlencoded",
-    'cache-control': "no-cache",
-    'postman-token': "2a55fa5c-4872-1c3b-f76d-18419a65e2a5"
+    'cache-control': "no-cache"
     }
 
 conn.request("POST", "/connect/token", payload, headers)
@@ -130,13 +127,12 @@ print(data.decode("utf-8"))
 OkHttpClient client = new OkHttpClient();
 
 MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-RequestBody body = RequestBody.create(mediaType, "grant_type=client_credentials&client_id=80e2a6b3e681cfa0381e4dae&client_secret=0f26e96434d6b7dfc4012476735dfd7d6025e19e2c47a039&scope=image_matching");
+RequestBody body = RequestBody.create(mediaType, "grant_type=client_credentials&client_id=your_client_id&client_secret=your_client_secret&scope=image_matching");
 Request request = new Request.Builder()
   .url("https://openid.wundercart.de/connect/token")
   .post(body)
   .addHeader("content-type", "application/x-www-form-urlencoded")
   .addHeader("cache-control", "no-cache")
-  .addHeader("postman-token", "6f945661-1d27-4441-5a5e-524d0e9bf929")
   .build();
 
 Response response = client.newCall(request).execute();

@@ -162,13 +162,12 @@ POST https://imagematching.wundercart.de/api/find
 Key | Value
 ---|---
 `Authorization` | Bearer + 'access_token'
-
-**Content**
-
-Key | Value
----|---
 `Content-Type` | image/jpeg
-`Content-Length` | image memory stream
+`Content-Length` | the size of image in bytes
+
+**Body**
+
+The Body of the request should contain the image file's actual bytes sent in binary. 
 
 **Note**
 
@@ -177,6 +176,99 @@ Key | Value
 *  The image size should not exceed 300kb.
 
 #### Example Request
+
+
+```python
+import http.client
+
+conn = http.client.HTTPSConnection("imagematching.wundercart.de")
+
+headers = {
+    'authorization': "Bearer access-token",
+    'content-type': "image/jpeg",
+    'content-length': "image-filesize-in-bytes",
+    'cache-control': "no-cache"
+    }
+
+conn.request("POST", "/api/find", headers=headers)
+
+res = conn.getresponse()
+data = res.read()
+
+print(data.decode("utf-8"))
+```
+
+```javascript
+var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://imagematching.wundercart.de/api/find",
+  "method": "POST",
+  "headers": {
+    "authorization": "Bearer access-token",
+    "content-type": "image/jpeg",
+    "content-length": "image-file-size-in-bytes",
+    "cache-control": "no-cache"
+  }
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+```
+
+```php
+<?php
+$data = file_get_contents("image.jpg");
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "https://imagematching.wundercart.de/api/find",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_BINARYTRANSFER => 1,
+  CURLOPT_PUT => 1,
+  CURLOPT_INFILE => $data,
+  CURLOPT_INFILESIZE => filesize("filename"),
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_HTTPHEADER => array(
+    "authorization: Bearer access-token",
+    "cache-control: no-cache",
+    "content-length: image-file-size-in-bytes",
+    "content-type: image/jpeg"
+  ),
+));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+  echo "cURL Error #:" . $err;
+} else {
+  echo $response;
+}
+```
+
+```java
+OkHttpClient client = new OkHttpClient();
+
+Request request = new Request.Builder()
+  .url("https://imagematching.wundercart.de/api/find")
+  .post(null)
+  .addHeader("authorization", "Bearer access-token")
+  .addHeader("content-type", "image/jpeg")
+  .addHeader("content-length", "image-file-size-in-bytes")
+  .addHeader("cache-control", "no-cache")
+  .build();
+
+Response response = client.newCall(request).execute();
+```
 
 ```csp
 var imageMatchingUri="https://imagematching.wundercart.de/api/find";

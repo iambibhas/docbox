@@ -10,7 +10,7 @@
     <link href='css/railscasts.css' rel='stylesheet' />
   </head>
   <body>
-    <!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="1732818018"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#everybag-api-documentation" class="line-height15 pad0x pad00y quiet block " data-reactid="7">Everybag API Documentation</a><div class="small pad0x quiet space-top1" data-reactid="8">API Endpoints</div><a href="#get-an-access-token" class="line-height15 pad0x pad00y quiet block " data-reactid="9">Get an Access Token</a><a href="#match-an-image" class="line-height15 pad0x pad00y quiet block " data-reactid="10">Match an Image</a></div></div><div class="space-left16" data-reactid="11"><div class="" data-reactid="12"><div class="clearfix" data-reactid="13"><div data-title="Everybag API Documentation" class="keyline-top section contain clearfix " data-reactid="14"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="15"><h2 id="everybag-api-documentation">Everybag API Documentation</h2>
+    <!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="1628934073"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#everybag-api-documentation" class="line-height15 pad0x pad00y quiet block " data-reactid="7">Everybag API Documentation</a><div class="small pad0x quiet space-top1" data-reactid="8">API Endpoints</div><a href="#get-an-access-token" class="line-height15 pad0x pad00y quiet block " data-reactid="9">Get an Access Token</a><a href="#match-an-image" class="line-height15 pad0x pad00y quiet block " data-reactid="10">Match an Image</a></div></div><div class="space-left16" data-reactid="11"><div class="" data-reactid="12"><div class="clearfix" data-reactid="13"><div data-title="Everybag API Documentation" class="keyline-top section contain clearfix " data-reactid="14"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="15"><h2 id="everybag-api-documentation">Everybag API Documentation</h2>
 <p>Welcome to Everybag's API Documentation. At Everybag, our focus on Visual Product Search ensures that you, as retailers, can let us do all the heavy lifting while you delight customers with your ideas. </p>
 <p>We provide API endpoints, using our proprietary platform that takes every step into account. The end result is a format, that you can directly use in your shop.</p>
 <p>To get started, email us at <a href="mailto:support@everybag.de">support@everybag.de</a>. Our team will provision Client ID and Client Secret for you to get started with.</p>
@@ -93,18 +93,27 @@ print(data.decode(<span class="hljs-string">"utf-8"</span>))</pre>
 <td><code>Authorization</code></td>
 <td>Bearer + 'access_token'</td>
 </tr>
+</tbody>
+</table>
+<p><strong>Content</strong></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td><code>Content-Type</code></td>
 <td>image/jpeg</td>
 </tr>
 <tr>
 <td><code>Content-Length</code></td>
-<td>the size of image in bytes</td>
+<td>image memory stream</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Body</strong></p>
-<p>The Body of the request should contain the image file's actual bytes sent in binary. </p>
 <p><strong>Note</strong></p>
 <ul>
 <li>The General Image Format should be in JPG</li>
@@ -116,23 +125,6 @@ print(data.decode(<span class="hljs-string">"utf-8"</span>))</pre>
       <div class='pad0 code small endpoint-url'>https://imagematching.wundercart.de/api/find</div>
     </div>
 <h4 id="example-request-1">Example Request</h4>
-<pre class='hljs'><span class="hljs-keyword">import</span> http.client
-
-conn = http.client.HTTPSConnection(<span class="hljs-string">"imagematching.wundercart.de"</span>)
-
-headers = {
-    <span class="hljs-string">'authorization'</span>: <span class="hljs-string">"Bearer access-token"</span>,
-    <span class="hljs-string">'content-type'</span>: <span class="hljs-string">"image/jpeg"</span>,
-    <span class="hljs-string">'content-length'</span>: <span class="hljs-string">"image-filesize-in-bytes"</span>,
-    <span class="hljs-string">'cache-control'</span>: <span class="hljs-string">"no-cache"</span>
-    }
-
-conn.request(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/api/find"</span>, headers=headers)
-
-res = conn.getresponse()
-data = res.read()
-
-print(data.decode(<span class="hljs-string">"utf-8"</span>))</pre>
 <h4 id="example-response-1">Example response</h4>
 <pre class='hljs'>{
   "results": [

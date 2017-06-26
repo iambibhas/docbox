@@ -7,8 +7,8 @@ Property | Description
 `grant_type` | password or client_credentials
 `username` | required if grant_type is password
 `password` | required if grant_type is password
-`client_id` | required 
-`client_secret` | required 
+`client_id` | required
+`client_secret` | required
 `scope` | image_matching
 
 
@@ -74,7 +74,7 @@ if ($err) {
 ```
 
 ```csp
-//Build the form we're gonna put into the request 
+//Build the form we're gonna put into the request
 var tokenEndpoint="https://openid.wundercart.de/connect/token";
 var formDict = new Dictionary<string, string>();
 formDict.Add("grant_type", "password");
@@ -84,7 +84,7 @@ formDict.Add("client_id", "myClientID");
 formDict.Add("scope", "image_matching");
 var formContent = new FormUrlEncodedContent(formDict);
 var token = await GetAccessTokenAsync(client, tokenEndpoint, formContent);
-//... 
+//...
 public static async Task<string> GetAccessTokenAsync(HttpClient client, String address, FormUrlEncodedContent form)
 {
     var request = new HttpRequestMessage(HttpMethod.Post,address);
@@ -93,7 +93,7 @@ public static async Task<string> GetAccessTokenAsync(HttpClient client, String a
     {
         if (!response.IsSuccessStatusCode)
         {
-            //Handle error 
+            //Handle error
         }
         var responseContent = await response.Content.ReadAsStringAsync();
         var tokenResponse = JObject.Parse(responseContent);
@@ -143,7 +143,7 @@ Response response = client.newCall(request).execute();
 ```json
 {
     "token_type": "Bearer",
-    "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjMwN0RCNTQ1NUU1NjA4OEMzQTA1OEY4QzEzNkFDOEIyRDk3ODBEQUUiLCJ0eXAiOiJKV1QifQ.eyJqdGkiOiJkMmIwNTY3Yy1iNjRmLTQzNTUtYWMzNy04OThmNjRiZDk3NzQiLCJ1c2FnZSI6ImFjY2Vzc190b2tlbiIsImNmZF9sdmwiOiJwcml2YXRlIiwic2NvcGUiOiJpbWFnZV9tYXRjaGluZyIsInN1YiI6IjgwZTJhNmIzZTY4MWNmYTAzODFlNGRhZSIsImF1ZCI6Imh0dHBzOi8vYXBpLnd1bmRlcmNhcnQuZGUiLCJhenAiOiI4MGUyYTZiM2U2ODFjZmEwMzgxZTRkYWUiLCJuYmYiOjE0OTczNzMxMDcsImV4cCI6MTQ5OTk2NTEwNywiaWF0IjoxNDk3MzczMTA3LCJpc3MiOiJodHRwczovL29wZW5pZC53dW5kZXJjYXJ0LmRlLyJ9.K0VRhlGuzvRKKLTwnEAk0VX0t534D25xy4MBXrB8fNQ5wuUgvbSCjA_webuWQZCpKYw7lojP46lry0JTh7wj0sb6BCj0JOGEMOkjbKZzExsyYbAhOhrC1sXysY1b2dPUkcVeRC13N2W5BXfNiNuG2OXMGt9eiFqIJDnIycCdk1KRYwXXRja-z4cVH8DoQCn8j9-K1jqDEYm82Jvt9U7_96gobYagttYma1s7YV2XQdYgANyPb1VdIxO6d4-Dm8KiL044APsre6GGAO9HGmUOz1Xj52gYAtLJpuWru1lyvoWdN7_wRgEdGxHmAS-85o14eOkoLDAd2Pemi1e1u0Hp1g",
+    "access_token": "your-unique-access-token",
     "expires_in": 2592000
 }
 ```
@@ -167,7 +167,7 @@ Key | Value
 
 **Body**
 
-The Body of the request should contain the image file's actual bytes sent in binary. 
+The Body of the request should contain the image file's actual bytes sent in binary.
 
 **Note**
 
@@ -272,29 +272,24 @@ Response response = client.newCall(request).execute();
 
 ```csp
 var imageMatchingUri="https://imagematching.wundercart.de/api/find";
-//... 
-var token = await GetAccessTokenAsync(client, tokenEndpoint, formContent); // remember to get the token first 
-//... 
+//...
+var token = await GetAccessTokenAsync(client, tokenEndpoint, formContent); // remember to get the token first
+//...
 var offer = await PostImageToMatchingServerAsync(client, imageMatchingUri, token, imgPath);
-//... 
-public static async Task<JObject> PostImageToMatchingServerAsync(HttpClient client, string address, string token, string imgPath)
+//...
+public static async Task<JObject> PostImageToMatchingServerAsync(HttpClient client, string address, string token, FileInfo imgPath)
 {
-    using (var stream = File.Open(imgPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-    using (var memstream = new MemoryStream())
+    using (var stream = imgPath.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+    using (var content = new StreamContent(stream))
     {
-        //turn the image into a memory stream to add to the request 
-        await stream.CopyToAsync(memstream);
-        memstream.Seek(0,SeekOrigin.Begin);
-        var content = new StreamContent(memstream);
- 
-        //the actual request 
+        //the actual request
         var request = new HttpRequestMessage(HttpMethod.Post, address);
         request.Content = content;
         request.Content.Headers.Add("Content-Type", "image/jpeg");
-        request.Content.Headers.Add("Content-Length", memstream.Length.ToString());
-        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/everybag.offers+json", 1)); //this makes the server return a template 
+        request.Content.Headers.Add("Content-Length", stream.Length.ToString());
+        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/everybag.offers+json", 1));
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
- 
+
         using (var response = await client.SendAsync(request).ConfigureAwait(false))
         {
             if(response.IsSuccessStatusCode)
@@ -305,7 +300,7 @@ public static async Task<JObject> PostImageToMatchingServerAsync(HttpClient clie
             }
             else
             {
-                //handle error 
+                //handle error
             }
         }
     }

@@ -11,7 +11,7 @@ Everybag Image Matching SDK for Android allows to :
 
 For more information please see [everybag.de](http://www.everybag.de/)
 
-**Releases** 
+**Releases**
 
 The current release is 0.27.0
 
@@ -35,7 +35,10 @@ dependencies {
 }
 ```
 
-### Set App key and IAuthCallback:
+### Set App key
+
+The first step is to set the app key and the IAuthCallback method.
+
 
 ```java
 public class SplashScreen extends Activity implements IAuthCallback
@@ -69,7 +72,8 @@ public class SplashScreen extends Activity implements IAuthCallback
 
 ### Integrate Everybag Camera
 
-With Everybag Custom Camera SDK you can integrate camera just in few code lines
+With Everybag Custom Camera SDK, you can integrate camera just in few code lines
+
 ```xml
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -157,7 +161,8 @@ public class MainActivity extends Activity implements Callback {
 
 ### Match Taken Pictures
 
-Demo sample to match taken pcitures
+Once the camera has been integrated, use the following code to match taken pictures.
+
 ```java
 public class MainActivity extends Activity implements Callback {
     public void onCreate(Bundle savedInstanceState) {
@@ -214,7 +219,8 @@ public class SearchResultActivity extends BaseActivity implements IMatchCallback
 
 ### Clear running or pending tasks
 
-To clear pending or running background tasks
+It is important to clear pending or running background tasks from taking up memory.
+
 ```java
 public class MainActivity extends Activity
 {

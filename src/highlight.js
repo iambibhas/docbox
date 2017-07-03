@@ -6,7 +6,7 @@ import python from 'highlight.js/lib/languages/python';
 import javascript from 'highlight.js/lib/languages/javascript';
 import json from 'highlight.js/lib/languages/json';
 import java from 'highlight.js/lib/languages/java';
-import csp from 'highlight.js/lib/languages/csp';
+import csp from 'highlight.js/lib/languages/cs';
 import php from 'highlight.js/lib/languages/php';
 
 hljs.registerLanguage('python', python);

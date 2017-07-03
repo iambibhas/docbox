@@ -10,11 +10,11 @@
     <link href='css/railscasts.css' rel='stylesheet' />
   </head>
   <body>
-    <!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="1732818018"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#everybag-api-documentation" class="line-height15 pad0x pad00y quiet block " data-reactid="7">Everybag API Documentation</a><div class="small pad0x quiet space-top1" data-reactid="8">API Endpoints</div><a href="#get-an-access-token" class="line-height15 pad0x pad00y quiet block " data-reactid="9">Get an Access Token</a><a href="#match-an-image" class="line-height15 pad0x pad00y quiet block " data-reactid="10">Match an Image</a></div></div><div class="space-left16" data-reactid="11"><div class="" data-reactid="12"><div class="clearfix" data-reactid="13"><div data-title="Everybag API Documentation" class="keyline-top section contain clearfix " data-reactid="14"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="15"><h2 id="everybag-api-documentation">Everybag API Documentation</h2>
+    <!--START--><div id='app'><div class="container unlimiter" data-reactroot="" data-reactid="1" data-react-checksum="1545160024"><div class="fixed-top fixed-right space-left16" data-reactid="2"><div class="fill-light col6 pin-right" data-reactid="3"></div></div><div class="space-top5 scroll-styled overflow-auto pad1 width16 sidebar fixed-left fill-dark dark" data-reactid="4"><div class="pad0x small" data-reactid="5"><div class="small pad0x quiet space-top1" data-reactid="6">Introduction</div><a href="#everybag-api-documentation" class="line-height15 pad0x pad00y quiet block " data-reactid="7">Everybag API Documentation</a><div class="small pad0x quiet space-top1" data-reactid="8">API Endpoints</div><a href="#get-an-access-token" class="line-height15 pad0x pad00y quiet block " data-reactid="9">Get an Access Token</a><a href="#match-an-image" class="line-height15 pad0x pad00y quiet block " data-reactid="10">Match an Image</a><div class="small pad0x quiet space-top1" data-reactid="11">Mobile SDK</div><a href="#android-sdk" class="line-height15 pad0x pad00y quiet block " data-reactid="12">Android SDK</a></div></div><div class="space-left16" data-reactid="13"><div class="" data-reactid="14"><div class="clearfix" data-reactid="15"><div data-title="Everybag API Documentation" class="keyline-top section contain clearfix " data-reactid="16"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="17"><h2 id="everybag-api-documentation">Everybag API Documentation</h2>
 <p>Welcome to Everybag's API Documentation. At Everybag, our focus on Visual Product Search ensures that you, as retailers, can let us do all the heavy lifting while you delight customers with your ideas. </p>
 <p>We provide API endpoints, using our proprietary platform that takes every step into account. The end result is a format, that you can directly use in your shop.</p>
 <p>To get started, email us at <a href="mailto:support@everybag.de">support@everybag.de</a>. Our team will provision Client ID and Client Secret for you to get started with.</p>
-</div></div><div data-title="Get an Access Token" class="keyline-top section contain clearfix " data-reactid="16"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="17"><h2 id="get-an-access-token">Get an Access Token</h2>
+</div></div><div data-title="Get an Access Token" class="keyline-top section contain clearfix " data-reactid="18"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="19"><h2 id="get-an-access-token">Get an Access Token</h2>
 <p>Once you have the Client ID and Client Secret, you have to generate an access token to use our API end points. Generating a token requires a POST request to the OPEN ID Server with an URL encoded Form.</p>
 <table>
 <thead>
@@ -50,35 +50,30 @@
 </tr>
 </tbody>
 </table>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="18"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="20"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>POST</div>
       <div class='pad0 code small endpoint-url'>https://openid.wundercart.de/connect/token</div>
     </div>
 <h4 id="example-request">Example request</h4>
-<pre class='hljs'><span class="hljs-keyword">import</span> http.client
+<pre class='hljs'>OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();
 
-conn = http.client.HTTPSConnection(<span class="hljs-string">"openid.wundercart.de"</span>)
+MediaType mediaType = MediaType.parse(<span class="hljs-string">"application/x-www-form-urlencoded"</span>);
+RequestBody body = RequestBody.create(mediaType, <span class="hljs-string">"grant_type=client_credentials&amp;client_id=your_client_id&amp;client_secret=your_client_secret&amp;scope=image_matching"</span>);
+Request request = <span class="hljs-keyword">new</span> Request.Builder()
+  .url(<span class="hljs-string">"https://openid.wundercart.de/connect/token"</span>)
+  .post(body)
+  .addHeader(<span class="hljs-string">"content-type"</span>, <span class="hljs-string">"application/x-www-form-urlencoded"</span>)
+  .addHeader(<span class="hljs-string">"cache-control"</span>, <span class="hljs-string">"no-cache"</span>)
+  .build();
 
-payload = <span class="hljs-string">"grant_type=client_credentials&amp;client_id=your_client_id&amp;client_secret=your_client_secret&amp;scope=image_matching"</span>
-
-headers = {
-    <span class="hljs-string">'content-type'</span>: <span class="hljs-string">"application/x-www-form-urlencoded"</span>,
-    <span class="hljs-string">'cache-control'</span>: <span class="hljs-string">"no-cache"</span>
-    }
-
-conn.request(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/connect/token"</span>, payload, headers)
-
-res = conn.getresponse()
-data = res.read()
-
-print(data.decode(<span class="hljs-string">"utf-8"</span>))</pre>
+Response response = client.newCall(request).execute();</pre>
 <h4 id="example-response">Example response</h4>
 <pre class='hljs'>{
     <span class="hljs-attr">"token_type"</span>: <span class="hljs-string">"Bearer"</span>,
-    <span class="hljs-attr">"access_token"</span>: <span class="hljs-string">"eyJhbGciOiJSUzI1NiIsImtpZCI6IjMwN0RCNTQ1NUU1NjA4OEMzQTA1OEY4QzEzNkFDOEIyRDk3ODBEQUUiLCJ0eXAiOiJKV1QifQ.eyJqdGkiOiJkMmIwNTY3Yy1iNjRmLTQzNTUtYWMzNy04OThmNjRiZDk3NzQiLCJ1c2FnZSI6ImFjY2Vzc190b2tlbiIsImNmZF9sdmwiOiJwcml2YXRlIiwic2NvcGUiOiJpbWFnZV9tYXRjaGluZyIsInN1YiI6IjgwZTJhNmIzZTY4MWNmYTAzODFlNGRhZSIsImF1ZCI6Imh0dHBzOi8vYXBpLnd1bmRlcmNhcnQuZGUiLCJhenAiOiI4MGUyYTZiM2U2ODFjZmEwMzgxZTRkYWUiLCJuYmYiOjE0OTczNzMxMDcsImV4cCI6MTQ5OTk2NTEwNywiaWF0IjoxNDk3MzczMTA3LCJpc3MiOiJodHRwczovL29wZW5pZC53dW5kZXJjYXJ0LmRlLyJ9.K0VRhlGuzvRKKLTwnEAk0VX0t534D25xy4MBXrB8fNQ5wuUgvbSCjA_webuWQZCpKYw7lojP46lry0JTh7wj0sb6BCj0JOGEMOkjbKZzExsyYbAhOhrC1sXysY1b2dPUkcVeRC13N2W5BXfNiNuG2OXMGt9eiFqIJDnIycCdk1KRYwXXRja-z4cVH8DoQCn8j9-K1jqDEYm82Jvt9U7_96gobYagttYma1s7YV2XQdYgANyPb1VdIxO6d4-Dm8KiL044APsre6GGAO9HGmUOz1Xj52gYAtLJpuWru1lyvoWdN7_wRgEdGxHmAS-85o14eOkoLDAd2Pemi1e1u0Hp1g"</span>,
+    <span class="hljs-attr">"access_token"</span>: <span class="hljs-string">"your-unique-access-token"</span>,
     <span class="hljs-attr">"expires_in"</span>: <span class="hljs-number">2592000</span>
 }</pre>
-</div></div><div data-title="Match an Image" class="keyline-top section contain clearfix " data-reactid="19"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="20"><h2 id="match-an-image">Match an Image</h2>
+</div></div><div data-title="Match an Image" class="keyline-top section contain clearfix " data-reactid="21"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="22"><h2 id="match-an-image">Match an Image</h2>
 <p>Once you have acquired the access token, it is time now to send an image to the server. The server will process the image and return a JSON object with default values or with the values defined in your template.</p>
 <p><strong>Headers</strong></p>
 <table>
@@ -104,35 +99,30 @@ print(data.decode(<span class="hljs-string">"utf-8"</span>))</pre>
 </tbody>
 </table>
 <p><strong>Body</strong></p>
-<p>The Body of the request should contain the image file's actual bytes sent in binary. </p>
+<p>The Body of the request should contain the image file's actual bytes sent in binary.</p>
 <p><strong>Note</strong></p>
 <ul>
 <li>The General Image Format should be in JPG</li>
 <li>The longer side should be 512px. Bigger images will be accepted as well.</li>
 <li>The image size should not exceed 300kb.</li>
 </ul>
-</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="21"><div class='endpoint dark fill-dark round '>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="23"><div class='endpoint dark fill-dark round '>
       <div class='round-left pad0y pad1x fill-lighten0 code small endpoint-method'>POST</div>
       <div class='pad0 code small endpoint-url'>https://imagematching.wundercart.de/api/find</div>
     </div>
 <h4 id="example-request-1">Example Request</h4>
-<pre class='hljs'><span class="hljs-keyword">import</span> http.client
+<pre class='hljs'>OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();
 
-conn = http.client.HTTPSConnection(<span class="hljs-string">"imagematching.wundercart.de"</span>)
+Request request = <span class="hljs-keyword">new</span> Request.Builder()
+  .url(<span class="hljs-string">"https://imagematching.wundercart.de/api/find"</span>)
+  .post(<span class="hljs-keyword">null</span>)
+  .addHeader(<span class="hljs-string">"authorization"</span>, <span class="hljs-string">"Bearer access-token"</span>)
+  .addHeader(<span class="hljs-string">"content-type"</span>, <span class="hljs-string">"image/jpeg"</span>)
+  .addHeader(<span class="hljs-string">"content-length"</span>, <span class="hljs-string">"image-file-size-in-bytes"</span>)
+  .addHeader(<span class="hljs-string">"cache-control"</span>, <span class="hljs-string">"no-cache"</span>)
+  .build();
 
-headers = {
-    <span class="hljs-string">'authorization'</span>: <span class="hljs-string">"Bearer access-token"</span>,
-    <span class="hljs-string">'content-type'</span>: <span class="hljs-string">"image/jpeg"</span>,
-    <span class="hljs-string">'content-length'</span>: <span class="hljs-string">"image-filesize-in-bytes"</span>,
-    <span class="hljs-string">'cache-control'</span>: <span class="hljs-string">"no-cache"</span>
-    }
-
-conn.request(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"/api/find"</span>, headers=headers)
-
-res = conn.getresponse()
-data = res.read()
-
-print(data.decode(<span class="hljs-string">"utf-8"</span>))</pre>
+Response response = client.newCall(request).execute();</pre>
 <h4 id="example-response-1">Example response</h4>
 <pre class='hljs'>{
   "results": [
@@ -147,9 +137,192 @@ print(data.decode(<span class="hljs-string">"utf-8"</span>))</pre>
     }
   ]
 }</pre>
-</div></div></div></div></div><div class="fixed-top space-left16" data-reactid="22"><div class="events fill-light bottom-shadow pad1 col6 pin-topright  " data-reactid="23"><div class="space-right1 small quiet inline" data-reactid="24">Show examples in:</div><div class="rounded-toggle inline short" data-reactid="25"><a class="strong active" data-reactid="26">Python</a><a class="strong " data-reactid="27">JS</a><a class="strong " data-reactid="28">Java</a><a class="strong " data-reactid="29">csp</a><a class="strong " data-reactid="30">php</a></div><div class="fr pad0" data-reactid="31"><a title="Display as 1 column" style="cursor:pointer;" class="icon quiet caret-left pad0 fill-darken0 round" data-reactid="32"></a></div></div></div><div class="fill-dark dark bottom-shadow fixed-top pad0 width16" data-reactid="33"><a href="/" class="active space-top1 space-left1 pin-topleft icon round dark pad0 fill-red" data-reactid="34"></a><div class="strong small pad0
+</div></div><div data-title="Android SDK" class="keyline-top section contain clearfix " data-reactid="24"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="25"><h2 id="android-sdk">Android SDK</h2>
+<p>=======
+<img src="ic_launcher.png"></p>
+<p>Everybag Image Matching SDK for Android supports >=4.1 Android devices with a built-in camera from <a href="https://github.com/google/cameraview">Google projects</a> and Android OS 4.1 and higher.
+Everybag Image Matching SDK for Android allows to :</p>
+<ul>
+<li>build easy camera.</li>
+<li>support Camera API 1 for Android &#x3C; 6.0 and support Camera API 2 for Andorid >= 6.0.</li>
+<li>provides 100% matching for taken pictures products.</li>
+</ul>
+<p>For more information please see <a href="http://www.everybag.de/">everybag.de</a></p>
+<p><strong>Releases</strong></p>
+<p>The current release is 0.27.0</p>
+</div></div><div data-title="Download" class="keyline-top section contain clearfix " data-reactid="26"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="27"><h3 id="download">Download</h3>
+<p>The SDK can be downloaded via Gradle</p>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="28"><h4 id="gradle-code">Gradle Code</h4>
+<pre class='hljs'>repositories {
+    maven {
+        url "https://www.myget.org/F/everybag/maven/"
+    }
+}
+
+dependencies {
+    ...
+    compile 'de.everybag:everybag.cameraview:0.27.0'
+    compile 'de.everybag:everybag.sdk:0.27.0'
+}</pre>
+</div></div><div data-title="Set App key" class="keyline-top section contain clearfix " data-reactid="29"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="30"><h3 id="set-app-key">Set App key</h3>
+<p>The first step is to set the app key and the IAuthCallback method.</p>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="31"><pre class='hljs'><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SplashScreen</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IAuthCallback</span>
+</span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+        ...
+        <span class="hljs-comment">//Set</span>
+        Everybag
+        .getInstance()
+        <span class="hljs-comment">//Enabling crash report will keep us updated in case you face issues with our SDK</span>
+        .enableCrashReport(<span class="hljs-keyword">true</span>)
+        .setAuthCallback(<span class="hljs-keyword">this</span>)
+        .login(<span class="hljs-keyword">this</span>, client_id, client_secret);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSuccess</span><span class="hljs-params">(AccessToken accessToken)</span> </span>{
+        <span class="hljs-comment">//When it's success login, AccessToken is managed by Everybag SDK you don't need to save it</span>
+        Intent intent = <span class="hljs-keyword">new</span> Intent(SplashScreen.<span class="hljs-keyword">this</span>, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(ResponseError error)</span> </span>{
+        <span class="hljs-comment">//When it's error</span>
+    }
+}</pre>
+</div></div><div data-title="Integrate Everybag Camera" class="keyline-top section contain clearfix " data-reactid="32"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="33"><h3 id="integrate-everybag-camera">Integrate Everybag Camera</h3>
+<p>With Everybag Custom Camera SDK, you can integrate camera just in few code lines</p>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="34"><pre class='hljs'><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Callback</span> </span>{
+    <span class="hljs-keyword">private</span> CameraView camera;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+        ...
+         camera = (CameraView) findViewById(R.id.camera);
+                                camera.addCallback(<span class="hljs-keyword">this</span>);
+                                camera.start();
+        ...
+    }
+
+    <span class="hljs-comment">//when app resuemd</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onResume</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">super</span>.onResume();
+        camera.start();
+    }
+
+    <span class="hljs-comment">//when lock screen or App paused</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPause</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">super</span>.onPause();
+        camera.stop();
+    }
+
+    <span class="hljs-comment">//Android &gt;=6.0 permissions</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onRequestPermissionsResult</span><span class="hljs-params">(<span class="hljs-keyword">int</span> requestCode, @NonNull String[] permissions, @NonNull <span class="hljs-keyword">int</span>[] grantResults)</span> </span>{
+        <span class="hljs-keyword">if</span> (requestCode == ICamera.REQUEST_CAMERA_PERMISSION) {
+            <span class="hljs-keyword">if</span> (grantResults.length == <span class="hljs-number">1</span> &amp;&amp; grantResults[<span class="hljs-number">0</span>] == PackageManager.PERMISSION_GRANTED) {
+                <span class="hljs-comment">//On Permission OK</span>
+            }
+            <span class="hljs-keyword">else</span>
+            {
+                <span class="hljs-comment">//Permission Deny</span>
+            }
+        }
+    }
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCameraOpened</span><span class="hljs-params">(CameraView cameraView)</span> </span>{
+        <span class="hljs-comment">//On Camera Opened</span>
+   }
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCameraClosed</span><span class="hljs-params">(CameraView cameraView)</span> </span>{
+        <span class="hljs-comment">//On Camera Closed</span>
+   }
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPictureTaken</span><span class="hljs-params">(CameraView cameraView, <span class="hljs-keyword">byte</span>[] data)</span> </span>{
+       <span class="hljs-comment">//On Picture Taken</span>
+   }
+
+   <span class="hljs-meta">@Override</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(CameraView cameraView, String errorMessage)</span> </span>{
+       <span class="hljs-comment">//On Camera Error</span>
+   }
+    ...
+}</pre>
+</div></div><div data-title="Match Taken Pictures" class="keyline-top section contain clearfix " data-reactid="35"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="36"><h3 id="match-taken-pictures">Match Taken Pictures</h3>
+<p>Once the camera has been integrated, use the following code to match taken pictures.</p>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="37"><pre class='hljs'><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Callback</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+        ...
+        View btnTakePicture = findViewById(R.id.btnTakePicture);
+        btnTakePicture.setOnClickListener(<span class="hljs-keyword">new</span> OnClickListener() {
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onClick</span><span class="hljs-params">(View v)</span> </span>{
+                camera.takePicture();
+            }
+        });
+    }
+
+    <span class="hljs-comment">//On taken picture from Everybag Camera</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onTakenPicture</span><span class="hljs-params">(<span class="hljs-keyword">byte</span>[] image)</span> </span>{
+        camera.stop();
+        Intent intent = <span class="hljs-keyword">new</span> Intent(MainActivity.<span class="hljs-keyword">this</span>, SearchResultActivity.class);
+        intent.putExtra(<span class="hljs-string">"image"</span>, image);
+        startActivity(intent);
+    }
+    ...
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResultActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseActivity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IMatchCallback</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+    ...
+        <span class="hljs-keyword">byte</span>[] image = getIntent().getExtras().getByteArray(<span class="hljs-string">"image"</span>);
+        Everybag.getInstance()
+                .setMatchCallback(<span class="hljs-keyword">this</span>)
+                .match(image);
+    }
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMatched</span><span class="hljs-params">(List&lt;OfferInfo&gt; offerInfos)</span> </span>{
+        <span class="hljs-comment">//onMatched List offers object</span>
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMatched</span><span class="hljs-params">(JSONObject jsonObject)</span> </span>{
+        <span class="hljs-comment">//onMatched JsonObject</span>
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onMatched</span><span class="hljs-params">(String json)</span> </span>{
+        <span class="hljs-comment">//onMatched String Json</span>
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(ResponseError s)</span> </span>{
+        <span class="hljs-comment">//On Error</span>
+    }
+}</pre>
+</div></div><div data-title="Clear running or pending tasks" class="keyline-top section contain clearfix " data-reactid="38"><div class="space-bottom8 col6 pad2x prose clip" data-reactid="39"><h3 id="clear-running-or-pending-tasks">Clear running or pending tasks</h3>
+<p>It is important to clear pending or running background tasks from taking up memory.</p>
+</div><div class="space-bottom4 col6 pad2 prose clip fill-light space-top5" data-reactid="40"><pre class='hljs'><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span>
+</span>{
+    ...
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDestroy</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">super</span>.onDestroy();
+        Everybag.getInstance().clearAllTasks();
+    }
+}</pre>
+</div></div></div></div></div><div class="fixed-top space-left16" data-reactid="41"><div class="events fill-light bottom-shadow pad1 col6 pin-topright  " data-reactid="42"><div class="space-right1 small quiet inline" data-reactid="43">Show examples in:</div><div class="rounded-toggle inline short" data-reactid="44"><a class="strong active" data-reactid="45">Java</a><a class="strong " data-reactid="46">Python</a><a class="strong " data-reactid="47">JS</a><a class="strong " data-reactid="48">csp</a><a class="strong " data-reactid="49">php</a></div><div class="fr pad0" data-reactid="50"><a title="Display as 1 column" style="cursor:pointer;" class="icon quiet caret-left pad0 fill-darken0 round" data-reactid="51"></a></div></div></div><div class="fill-dark dark bottom-shadow fixed-top pad0 width16" data-reactid="52"><a href="/" class="active space-top1 space-left1 pin-topleft icon round dark pad0 fill-red" data-reactid="53"></a><div class="strong small pad0
           
-          space-left4 line-height15" data-reactid="35">Everybag API Documentation</div></div></div></div><!--STOP-->
+          space-left4 line-height15" data-reactid="54">Everybag API Documentation</div></div></div></div><!--STOP-->
     <script src='bundle.js'></script>
   </body>
 </html>

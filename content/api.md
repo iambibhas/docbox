@@ -74,31 +74,20 @@ if ($err) {
 ```
 
 ```csp
-//Build the form we're gonna put into the request
-var tokenEndpoint="https://openid.wundercart.de/connect/token";
-var formDict = new Dictionary<string, string>();
-formDict.Add("grant_type", "password");
-formDict.Add("username", "myUsername");
-formDict.Add("password", "myPassword");
-formDict.Add("client_id", "myClientID");
-formDict.Add("scope", "image_matching");
-var formContent = new FormUrlEncodedContent(formDict);
-var token = await GetAccessTokenAsync(client, tokenEndpoint, formContent);
-//...
-public static async Task<string> GetAccessTokenAsync(HttpClient client, String address, FormUrlEncodedContent form)
+using System.IO.Compression;
+
+#pragma warning disable 414, 3021
+
+namespace MyApplication
 {
-    var request = new HttpRequestMessage(HttpMethod.Post,address);
-    request.Content=form;
-    using (var response = await client.SendAsync(request))
+    [Obsolete("...")]
+    class Program : IInterface
     {
-        if (!response.IsSuccessStatusCode)
+        public static List<int> JustDoIt(int count)
         {
-            //Handle error
+            Console.WriteLine($"Hello {Name}!");
+            return new List<int>(new int[] { 1, 2, 3 })
         }
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var tokenResponse = JObject.Parse(responseContent);
-        var token = tokenResponse.GetValue("access_token").Value<string>();
-        return token;
     }
 }
 ```

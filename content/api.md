@@ -209,7 +209,7 @@ var settings = {
   "headers": {
     "authorization": "Bearer access-token",
     "content-type": "image/jpeg",
-    "content-length": "image-file-size-in-bytes",
+    "content-length": imageData.length,
     "cache-control": "no-cache"
   }
 }

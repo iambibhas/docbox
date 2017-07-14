@@ -191,7 +191,7 @@ headers = {
     'postman-token': "cdd08711-dae8-a75d-71e4-8847cdb2108e"
 }
 
-with open('image.jpg','rb') as payload:
+with open('image.jpg', 'rb') as payload:
     response = requests.post(url, headers=headers, data=payload)
 
 print(response.text)

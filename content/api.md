@@ -179,19 +179,19 @@ The Body of the request should contain the image file's actual bytes sent in bin
 
 
 ```python
+import os.path
 import requests
 
 url = "https://imagematching.wundercart.de/api/find"
+image_path = 'image.jpg'
 
-headers = {
-    'authorization': "Bearer token",
-    'content-type': "image/jpeg",
-    'content-length': "79785",
-    'cache-control': "no-cache",
-    'postman-token': "cdd08711-dae8-a75d-71e4-8847cdb2108e"
-}
-
-with open('image.jpg', 'rb') as payload:
+with open(image_path, 'rb') as payload:
+    headers = {
+        'authorization': "Bearer token",
+        'content-type': "image/jpeg",
+        'content-length': os.path.getsize(image_path),
+        'cache-control': "no-cache"
+    }
     response = requests.post(url, headers=headers, data=payload)
 
 print(response.text)
